@@ -2,14 +2,18 @@ from typing import List
 import copy
 
 class Solution:
-    #def convertBoardLeetCode(self, my_board):
-    #    leet_board = []
-    #    leet_row = ""
-    #    for row in my_board:
-    #        for char in row:
-    #            leet_row += char
-    #        leet_board.append(leet_row)
-    #    return leet_board
+    def convertBoardLeetCode(self, my_boards):
+        leet_boards = []
+        for board in my_boards:
+            leet_board = []
+            leet_row = ""
+            for row in board:
+                for char in row:
+                    leet_row += char
+                leet_board.append(leet_row)
+                leet_row = ""
+            leet_boards.append(leet_board)
+        return leet_boards
 
     def isQueenValidAtIdx(self, pos, board):
         row, col = pos
@@ -56,12 +60,14 @@ class Solution:
         return False
         
     def solveNQueens(self, n: int) -> List[List[str]]:
+        if n == 1:
+            return [["Q"]]
         board = []
         for i in range(n):
             board.append(["."] * n)
         solutions = []
         self.rec_solveNQueens(board, 0, solutions, 0)
-        return solutions
+        return self.convertBoardLeetCode(solutions)
         
     def countQueens(self, board):
         queenCount = 0
@@ -98,7 +104,7 @@ class Solution:
 
 def main():
     solution = Solution()
-    n = 5
+    n = 4
     my_result = solution.solveNQueens(n)
     print(my_result)
 
