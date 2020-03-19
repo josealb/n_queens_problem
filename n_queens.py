@@ -1,6 +1,16 @@
 from typing import List
+import copy
 
 class Solution:
+    #def convertBoardLeetCode(self, my_board):
+    #    leet_board = []
+    #    leet_row = ""
+    #    for row in my_board:
+    #        for char in row:
+    #            leet_row += char
+    #        leet_board.append(leet_row)
+    #    return leet_board
+
     def isQueenValidAtIdx(self, pos, board):
         row, col = pos
         for letter in board[row]:
@@ -46,18 +56,25 @@ class Solution:
         return False
         
     def solveNQueens(self, n: int) -> List[List[str]]:
-        print("start")
         board = []
         for i in range(n):
             board.append(["."] * n)
-        print(board)
         solutions = []
         self.rec_solveNQueens(board, 0, solutions, 0)
         return solutions
         
+    def countQueens(self, board):
+        queenCount = 0
+        for row in range(len(board)):
+            for col in range(len(board)):
+                if board[row][col] == "Q":
+                    queenCount += 1
+        return queenCount
+        
     def rec_solveNQueens(self, board, index, solutions, queens_count):
         if queens_count == len(board):
-            solutions.append(board)
+            if board not in solutions:
+                solutions.append(copy.deepcopy(board))
             return
         if index >= len(board[0])**2:
             return
@@ -78,10 +95,11 @@ class Solution:
                 self.rec_solveNQueens(board, index + 1, solutions, queens_count)
             index += 1
 
+
 def main():
     solution = Solution()
-    n = 4
-    solutions = solution.solveNQueens(n)
-    print(solutions)
+    n = 5
+    my_result = solution.solveNQueens(n)
+    print(my_result)
 
 main()
